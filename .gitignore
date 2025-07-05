@@ -1,8 +1,83 @@
-# Compiled Form Modules
-*.fmx
+-- stores table
+create table stores (
+    store_id number primary key,
+    address varchar2(255),
+    city varchar2(100)
+);
 
-# Compiled Menu Modules
-*.mmx
+-- employees table
+create table employees (
+    employee_id number primary key,
+    first_name varchar2(100),
+    last_name varchar2(100),  
+    position varchar2(100),
+    store_id number,
+    salary number(10),
+    phone_number varchar2(20),
+    foreign key (store_id) references stores(store_id)
+);
 
-# Compiled Pre-Linked Libraries
-*.plx
+-- categories table
+create table categories (
+    category_id number primary key,
+    category_name varchar2(100)
+);
+
+-- products table
+create table products (
+    product_id number primary key,
+    name varchar2(100),
+    expiration_date date,
+    category_id number,
+    foreign key (category_id) references categories(category_id)
+);
+
+-- inventory table
+create table inventory (
+    store_id number,
+    product_id number,
+    quantity number,
+    primary key (store_id, product_id),
+    foreign key (store_id) references stores(store_id),
+    foreign key (product_id) references products(product_id)
+);
+
+insert into stores values (1, 'Bravo Ahmedli', 'Baki');
+insert into stores values (2, 'Bravo Koroglu', 'Baki');
+insert into stores values (3, 'Bravo Genclik Mall', 'Baki');
+insert into stores values (4, 'Bravo Sahil', 'Baki');
+insert into stores values (5, 'Bravo Azadliq', 'Baki');
+insert into stores values (6, 'Bravo 28 May', 'Baki');
+insert into stores values (7, 'Bravo Nefciler', 'Baki');
+
+insert into employees values (1, 'Omar', 'Mamedli', 'Cashier', 1, 1200, '0552001234');
+insert into employees values (2, 'Egana', 'Mamishova', 'Cashier', 1, 1200, '0505555538');
+insert into employees values (3, 'Elvin', 'Dadasov', 'Cashier', 2, 1200, '0553451236');
+insert into employees values (4, 'Fazil', 'Hemidli', 'Manager', 2, 1500, '0553451237');
+insert into employees values (5, 'Gulcin', 'Mamedova', 'Manager', 3, 1500, '0552001122');
+insert into employees values (6, 'Kamran', 'Rustamzade', 'Manager', 4, 1500, '0702001319');
+insert into employees values (7, 'Mehemed', 'Qocaev', 'Security', 4, 1000, '0502223232');
+insert into employees values (8, 'Sara', 'Bugayeva', 'Security', 5, 1000, '0551111111');
+insert into employees values (9, 'Nazrin', 'Aliyeva', 'Security', 5, 1000, '0551212121');
+insert into employees values (10, 'Xaqani', 'Ceferli', 'Janitor', 6, 900, '0502011114');
+insert into employees values (11, 'Tamerlan', 'Mamedov', 'Janitor', 6, 900, '0772111456');
+insert into employees values (12, 'Abdulmecid', 'Mamedli', 'Janitor', 7, 900, '0701101225');
+
+insert into categories values (1, 'Dairy');
+insert into categories values (2, 'Snacks');
+insert into categories values (3, 'Fruits');
+insert into categories values (4, 'Vegetables');
+insert into categories values (5, 'Non-food');
+
+insert into products values (1, 'Milk', to_date('2025-06-01', 'yyyy-mm-dd'), 1);
+insert into products values (2, 'Cheese', to_date('2025-06-10', 'yyyy-mm-dd'), 1);
+insert into products values (3, 'Snickers', null, 2);
+insert into products values (4, 'Bananas', to_date('2025-05-30', 'yyyy-mm-dd'), 3);
+insert into products values (5, 'Cucumber', to_date('2025-05-29', 'yyyy-mm-dd'), 4);
+insert into products values (6, 'Box Cutter Knife', null, 5);
+
+insert into inventory values (1, 1, 50); -- store 1 has 50 Milk
+insert into inventory values (1, 2, 30); -- store 1 has 30 Cheese
+insert into inventory values (2, 3, 20); -- store 2 has 20 Snickers
+insert into inventory values (4, 4, 100); -- store 4 has 100 Bananas
+insert into inventory values (6, 5, 70); -- store 6 has 70 Cucumbers
